@@ -1,0 +1,417 @@
+/* .Home-box{
+    width: 7.5rem;
+} */
+.homeCarousel{
+    /* width: 10rem; */
+        /* color: inherit; */
+   /* height: 4.266667rem; */
+       /* color: inherit; */
+       overflow: hidden;
+    width: 7.5rem;
+    height: 3.2rem;
+    position: relative;
+}
+.homeCarousel img{
+    width: 100%;
+    height: 100%;
+}
+.Home-menu ul{
+    display: flex;
+    flex-wrap: wrap;
+}
+.Home-menu li{
+    text-align: center;
+    font-size: 0.24rem;
+}
+.Home-menu .Home-menu1{
+    padding-bottom: 0.4rem;
+}
+.Home-menu .Home-menu1 li{
+    width: 25%;
+    padding-top: 0.35rem;
+}
+.Home-menu .Home-menu1 li img{
+    object-fit: contain;
+    margin: 0 auto 0.2rem;
+    display: block;
+    width: 1.5rem;
+    height: 1rem;
+}
+.Home-menu .Home-menu2{
+    padding: 0.2rem;
+    border-top: 1px solid #e6e6e6;
+}
+.Home-menu .Home-menu2 li{
+    width: 20%;
+    padding: 0.17rem 0 0.2rem;
+}
+.Home-menu .Home-menu2 li img{
+    display: block;
+    height: 0.5rem;
+    width: 1rem;
+    object-fit: contain;
+    margin: 0 auto 0.21rem;
+}
+/* 间隔 */
+.interval{
+    height: .266667rem;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+.Home-msg1{
+    box-sizing: border-box;
+    padding: 0.26rem 0.24rem 0.3rem;
+    /* height: 1.28rem; */
+    height: 1.28rem;
+    line-height: 0.4rem;
+    overflow: hidden;
+    /* background: url('./img/home/menu500000053.png') 0.24rem 0.26rem/auto 0.4rem no-repeat; */
+    /* background: url('@public/img/home/menu500000053.png') 0.24rem 0.26rem/auto 0.4rem no-repeat; */
+    /* background:  0.24rem 0.26rem/auto 0.4rem no-repeat; */
+    /* background-image: "url(\"+require('./img/home/menu500000053.png')+\")"; */
+    padding-left: 1.88rem;
+    border-bottom: 1px solid #e6e6e6;
+}
+.Home-msg1-1{
+    width: 100%;
+    height: .533333rem;
+    margin: 0;
+    border-left: 1px solid #e6e6e6;
+    overflow: hidden;
+}
+.Home-msg1-1 .swiper-wrapper{
+    width: 100%;
+    height: .533333rem;
+}
+.Home-msg1-1 span{
+    width: 5.5rem;
+    height: 0.4rem;
+    color: #666;
+    font-size: 0.3rem;
+    display: inline-block;
+    padding-left: 0.2rem;
+    overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}
+.Home-msg1-2{
+    box-shadow: inset 0 1px #e6e6e6;
+    display: flex;
+}
+.Home-msg1-2 li{
+    box-sizing: border-box;
+    width: 50%;
+    position: relative;
+    padding: 0.35rem 0.24rem 0.35rem;
+    border-top: 1px solid #e6e6e6;
+}
+.Home-msg1-2 li:nth-child(2n){
+    box-sizing: border-box;
+    width: 50%;
+    position: relative;
+    padding: 0.35rem 0.24rem 0.35rem;
+    border-top: 1px solid #e6e6e6;
+    border-left: 1px solid #e6e6e6;
+}
+
+.Home-msg1-2 li dl{
+    height: 0.8rem;
+    line-height: 1;
+    width: 2.2rem;
+    position: relative;
+    top: -0.05rem;
+}
+.Home-msg1-2 li dl dt{
+    color: #333;
+    font-size: 0.3rem;
+    line-height: 0.44rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.Home-msg1-2 li dl dd{
+    color: #999;
+    font-size: 0.24rem;
+    line-height: 0.3rem;
+    margin-top: 0.16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.Home-msg1-2 li img{
+    position: absolute;
+    /* width: 1.066667rem;
+    height: 1.066667rem; */
+    width: 0.8rem;
+    height: 0.8rem;
+    top: 0.35rem;
+    right: 0.24rem;
+}
+/* shop1 */
+.index-houses{
+
+}
+.big-title{
+    background: #fff;
+    padding: 0 .24rem;
+    display: block;
+    font-size: .3rem;
+    line-height: .88rem;
+    border-bottom: 1px solid #e6e6e6;
+    color: #999;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+.big-title .more{
+    color: #d61939;
+}
+.xf-list-component li{
+    padding: 0;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e6e6e6;
+}
+.inner{
+    padding: 0.3rem 0.24rem 0.3rem;
+}
+.thumb{
+    float: left;
+    height: 1.5rem;
+    width: 2rem;
+    position: relative;
+}
+.thumb img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.thumb .status{
+    position: absolute;
+    width: 0.7rem;
+    height: 0.32rem;
+    line-height: 0.32rem;
+    color: #fff;
+    font-size: 0.22rem;
+    text-align: center;
+    bottom: 0.1rem;
+    left: 0;
+    background: #ff706a;
+}
+.info{
+    margin-left: 2.2rem;
+    line-height: 1;
+    height: 1.5rem;
+    position: relative;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    display: flex;
+    text-align: left;
+}
+.info .title{
+    font-size: 0.28rem;
+    line-height: 0.36rem;
+    height: 0.36rem;
+    font-weight: 500;
+}
+.info .area-distance{
+    font-size: 0.24rem;
+    line-height: .3rem;
+    height: .3rem;
+    color: #999;
+}
+.info .tags{
+    height: 0.32rem;
+    overflow: hidden;
+    font-size: 0;
+    display: block;
+}
+.info .tags .house-tag{
+    display: inline-block;
+    font-size: 0.24rem;
+    vertical-align: text-bottom;
+    line-height: 0.32rem;
+    margin-bottom: 0.1rem;
+    padding: 0 0.1rem;
+    border-radius: 0.04rem;
+}
+
+.info .tags .house-tag:nth-of-type(4n + 1) {
+    color: #7a9bcc;
+    background: #ebf3fe;
+}
+.info .tags .house-tag:nth-of-type(4n + 2) {
+    color: #e29076;
+    background: #fbe9e7;
+}
+.xf-list-component .info .tags .house-tag:nth-of-type(4n + 3) {
+    color: #75ae75;
+    background: #e1f8e0;
+}
+.info .price{
+    position: absolute;
+    right: 0;
+    top: 0.56rem;
+    line-height: 1;
+    font-size: 0.26rem;
+    color: #d61939;
+}
+.info .tags .house-tag + .house-tag{
+    margin-left: 0.1rem;
+}
+.info .area span+ span{
+    padding-left: 0.2rem;
+}
+.info .no{
+    font-size: 0.34rem;
+}
+.more-link{
+    color: #666;
+    font-size: 0.28rem;
+    line-height: 0.88rem;
+    text-align: center;
+    border-top: 1px solid #e6e6e6;
+}
+.full{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+/* shop2 */
+.esf-list-component .item{
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #e6e6e6;
+    padding: 0.3rem 0.24rem 0.3rem;
+}
+.esf-list-component .item .thumb{
+    float: left;
+    height: 1.5rem;
+    width: 2rem;
+    position: relative;
+}
+.esf-list-component .item .thumb img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.esf-list-component .item .info{
+    margin-left: 2.2rem;
+    line-height: 1;
+    height: 1.5rem;
+    position: relative;
+}
+.esf-list-component .info .r-title{
+    height: 0.76rem;
+    line-height: 0.38rem;
+    font-size: 0.3rem;
+    overflow: hidden;
+}
+.esf-list-component .info .r-title p{
+    height: 0.76rem;
+    display: table-cell;
+    vertical-align: middle;
+}
+.esf-list-component .info .r-info{
+    color: #999;
+    font-size: 0.24rem;
+    height: 0.32rem;
+    line-height: 0.32rem;
+    vertical-align: middle;
+}
+.esf-list-component .info .r-info .r-type{
+    max-width: 3.5rem;
+    display: inline-block;
+    overflow: hidden;
+}
+.esf-list-component .info .r-info .locate + .locate{
+    display: inline-block;
+    white-space: nowrap;
+    margin-left: 0.12rem;
+}
+.esf-list-component .info .r-price{
+    color: #d61939;
+    display: inline-block;
+    height: 0.32rem;
+    font-size: 0.28rem;
+    float: right;
+}
+.esf-list-component .info .r-price em{
+    font-size: 0.32rem;
+}
+.esf-list-component .info .r-condition{
+    height: 0.4rem;
+}
+.esf-list-component .info .r-condition .house-tags{
+    height: 0.4rem;
+    padding-top: .04rem;
+    width: 100%;
+    overflow: hidden;
+    display: inline-block;
+}
+.house-tags .youxuan-tag{
+    color: #fff;
+    line-height: .32rem;
+    padding: 0 .1rem;
+    border-radius: .04rem;
+    margin-right: .1rem;
+    display: inline-block;
+    font-size: .24rem;
+    vertical-align: text-bottom;
+    margin-bottom: .1rem;
+    background-color: #03c37a;
+    background-image: linear-gradient(270deg,#57db54,#03c37a);
+}
+.house-tags .house-tag {
+    display: inline-block;
+    font-size: .24rem;
+    vertical-align: text-bottom;
+    line-height: .32rem;
+    margin-bottom: .1rem;
+    padding: 0 .1rem;
+    border-radius: .04rem;
+}
+.house-tags .house-tag:nth-of-type(4n+2) {
+    color: #e29076;
+    background: #fbe9e7;
+}
+.esf-list-component .info .avg {
+    font-size: 0.24rem;
+    line-height: 0.4rem;
+    float: right;
+    color: #999;
+}
+/* bottom */
+.tel-link {
+    color: #fff;
+    text-align: center;
+    font-size: 0.28rem;
+    line-height: 0.88rem;
+    background: #d61939;
+}
+.tel-link .iconfont {
+    font-size: 0.62rem;
+    margin-right: 0.2rem;
+    vertical-align: middle;
+    display: inline-block;
+}
+.icon-tubiao49:before {
+    content: "\E62E";
+}
+.iconfont {
+    font-family: iconfont!important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+a{
+    color: inherit;
+}

@@ -1,0 +1,101 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.my_fabu .fabu_column .fabu_column_title {
+    font-size: .375rem;
+    line-height: .88rem;
+    color: #666;
+    padding: 0 .32rem;
+    text-align: left;
+}
+.my_fabu .fabu_column ul {
+    background: #fff;
+    padding: 0 .32rem;
+    margin-bottom: 0;
+}
+.my_fabu .fabu_column ul li {
+    padding: .4rem 0;
+    padding-left: 1.33rem;
+    height: 1.76rem;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+}
+.my_fabu{
+    background-color: #f5f5f5;
+}
+a, a:visited {
+    text-decoration: none;
+}
+.back img{
+background: red;
+color: white;
+}
+.my_fabu .fabu_column ul li .fabu_column_icon {
+    position: absolute;
+    top: .4rem;
+    left: 0;
+    display: inline-block;
+    /* width: .96rem;
+    height: .96rem; */
+    /* background-size: 100% 100%;
+    background-repeat: no-repeat; */
+}
+.my_fabu .fabu_column ul li .fabu_column_icon img{
+    height:1.26667rem;
+     width: 1.26667rem;
+    display: block;
+    position: absolute;
+    top: -5px;
+}
+em, i {
+    font-style: normal;
+}
+.my_fabu .fabu_column ul li dt {
+    font-size: .4rem;
+    line-height: .5rem;
+    color: #333;
+}
+.my_fabu .fabu_column ul li dd {
+    font-size: .32rem;
+    line-height: .51rem;
+    color: #666;
+}
+.my_fabu .fabu_column ul li .icon-rightarrow {
+    color: #b8b8b8;
+    font-size: 1rem;
+    position: absolute;
+    top: .68rem;
+    right: -.05rem;
+    display: block;
+    top: -3px;
+}
+.iconfont {
+    font-family: "iconfont" !important;
+    /* font-size: 16px; */
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    /* -moz-osx-font-smoothing: grayscale; */
+}
+.title-bar .operate {
+    text-align: right;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+.title-bar .operate a {
+    float: left;
+    font-size: 24px;
+    color: #fff;
+    margin-right: 10px;
+}
+.my_fabu .fabu_column ul li+li {
+    border-top: 1px solid #eee;
+}
+body{
+    background-color: #f5f5f5;
+}

@@ -1,0 +1,141 @@
+.bg-fff {
+    background: #fff;
+}
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+/* 公共样式 */
+.top-bg{
+    height: 2rem;
+    background-size: 100% 100%;
+    padding: 0.24rem;
+    position: relative;
+}
+.top-bg img{
+    display: inline-block;
+    max-width: 3rem;
+}
+.search-toolbar {
+    overflow: hidden;
+}
+.index-search .search-box {
+    /* width: 7.02rem; */
+    /* width: 9.333333rem; */
+    box-sizing: border-box;
+    width: 7.02rem;
+    line-height: .6rem;
+    border-radius: .3rem;
+    background: #fff;
+    color: #999;
+    font-size: .28rem;
+    padding: 0 .15rem;
+    text-align: left;
+}
+.index-search .search-box .icon-search {
+    margin-right: .1rem;
+}
+.search-toolbar .search-page{
+    height: 100vh;
+    background: #fff;
+    /* display: -webkit-box;
+    display: -webkit-flex;
+    display: flex; */
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    /* -webkit-flex-direction: column; */
+    flex-direction: column;
+}
+.search-toolbar .search-header {
+    padding: 0.16rem 0.24rem 0.16rem;
+    padding-right: 0;
+    -webkit-box-flex: 0;
+    -webkit-flex-grow: 0;
+    flex-grow: 0;
+    -webkit-flex-shrink: 0;
+    flex-shrink: 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+.search-toolbar .search-header .search-container[data-v-0446404a] {
+    width: 6.3rem;
+    position: relative;
+}
+.search-toolbar .search-header .search-container .icon-search[data-v-0446404a] {
+    left: 0;
+}
+.search-toolbar .search-header .search-container .iconfont[data-v-0446404a] {
+    position: absolute;
+    top: 0;
+    height: 0.6rem;
+    width: 0.6rem;
+    color: #b8b8b8;
+    line-height: 0.6rem;
+    text-align: center;
+}
+.search-toolbar .search-header .search-container input[data-v-0446404a] {
+    height: 0.6rem;
+    width: 100%;
+    border-radius: 0.05rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    font-size: 0.26rem;
+}
+.search-toolbar .search-header .search-container .icon-closed[data-v-0446404a] {
+    right: 0;
+}
+.search-toolbar .search-header .cancle[data-v-0446404a] {
+    width: 0.96rem;
+    line-height: 0.6rem;
+    text-align: center;
+}
+.SecondMenu{
+    display: flex;
+}
+.other-navs{
+    border-top: 1px solid #e6e6e6;
+}
+.other-navs li {
+    float: left;
+    width: 20%;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+.other-navs li a {
+    display: block;
+    font-size: 0.24rem;
+    color: #333;
+}
+.other-navs li img {
+    display: block;
+    width: 1.2rem;
+    height: 0.6rem;
+    margin: 0 auto 0.2rem;
+    object-fit: contain;
+}
+/* 底部 */
+.container {
+    padding: 0 .24rem;
+}
+.dcontact a {
+    height: 0.88rem;
+    line-height: 0.88rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+}
+.dcontact a .tel-box {
+    color: #999;
+    font-size: 0.28rem;
+}
+.dcontact a .icon-tubiao49 {
+    color: #d61939;
+    font-size: 0.6rem;
+}
+
+
+
