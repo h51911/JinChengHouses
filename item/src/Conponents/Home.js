@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Swiper from 'swiper/js/swiper.js'
-import 'swiper/css/swiper.css'
+// import 'swiper/css/swiper.css'
 import '../css/Home.css'
 import Interval from './Interval'
 import Menu from './Menu';

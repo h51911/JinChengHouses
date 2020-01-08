@@ -120,3 +120,119 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
     cursor: pointer;
     -webkit-appearance: button;
 }
+
+
+
+/* 注册页面的样式 */
+.reg-form-button{
+    width: 100%;
+    height: 1.32rem !important;
+    display: block;
+    background-color: #d51938 !important;
+    color: #fff;
+    /* font-size: .34rem; */
+    border-radius: .08rem;
+    border:0 none !important;
+}
+
+.reg .ant-form-item{
+    display: flex;
+    margin-bottom: 0 !important;
+    height: 1.46rem;
+}
+.reg .ant-form-item input{
+    /* display: flex;
+    margin-bottom: 0 !important; */
+    /* height: 1.46rem; */
+    height: 1.3rem;
+    font-size: .3rem;
+    border: 0 !important;
+}
+.reg .ant-form-item-required{
+    /* line-height: 1.58rem; */
+    line-height: 1.3rem;
+    /* font-size: .3rem; */
+}
+.reg .ant-form-explain{
+    display: none;
+}
+/* 手机登录 */
+.reg .phoneLogin{
+    position: relative;
+}
+.reg .getCode{
+        width: 1.8rem;
+        height: .65rem;
+        border-radius: .08rem;
+        background-color: 
+    #faa967;
+    line-height: .65rem;
+    text-align: center;
+    color:
+        #fff;
+        font-size: .28rem;
+        position: absolute;
+        right: 0;
+        top: 45%;
+        margin-top: -.32rem;
+}
+.reg .checkCode{
+    width: 2.5rem;
+height: .98rem;
+position: absolute;
+font-size: .68rem;
+right: 0rem;
+top: 20%;
+z-index: 5;
+background-color: azure;
+}
+.reg .ant-form-item{
+    display: flex !important;
+    margin-bottom: 0 !important;
+    height: 1.46rem;
+}
+.ant-form label {
+    font-size: 0.373333rem;
+}
+
+
+/* ----------------------------- */
+.reg .ant-form-item-children{
+    display: flex;
+    margin: 0 .24rem;
+    height: 1rem;
+}
+.reg .ant-form-item-children .ant-input{
+    /* display: flex; */
+    width: 5.8rem;
+}
+.reg .ant-form-item-children .label{
+    /* display: flex; */
+    /* width: 5.8rem; */
+    height: .9rem;
+    line-height: .9rem;
+}
+
+.reg .phone-nav ul a.on {
+    color: #d51938;
+    border-bottom-color: #d51938;
+}
+
+.reg .phone-nav ul a {
+    display: block;
+    height: 1rem;
+    line-height: .99rem;
+    border-bottom: 1px solid transparent;
+    color: #999;
+    text-align: center;
+    font-size: .3rem;
+}
+.LRButton {
+    border-bottom: 0 none;
+}
+.label .ml{
+    margin-left: 1em;
+}
+.reg .reg-ele{
+    text-align: right;
+}

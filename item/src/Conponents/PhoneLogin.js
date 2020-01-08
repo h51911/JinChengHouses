@@ -1,22 +1,206 @@
 import React, { Component } from 'react';
 import '../css/inoic.css'
 import '../css/house.css'
+import { Form, Icon, Input, Button, Checkbox, message, Alert } from 'antd';
+import CheckCode from './CheckCode';
+message.config({
+    top: 250,
+    duration: 2,
+    maxCount: 3,
+})
 class PhoneLogin extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.goto = this.goto.bind(this);
+        this.state = {
+            num1: Math.ceil(Math.random() * 100),
+            num2: Math.ceil(Math.random() * 80),
+            res: 0,
+            phone: false,
+            code: "",
+            codeFlag: false,
+            photoCode: false,
+        }
+        this.state.res = this.state.num1 + this.state.num2;
+        this.fresh = this.fresh.bind(this);
+        this.phoneBlue = this.phoneBlue.bind(this);
+        this.sendCode = this.sendCode.bind(this);
+    }
+    //消息框
+    info = (str) => {
+        message.config({
+            top: 250,
+            duration: 2,
+            maxCount: 3,
+            duration: 10
+        })
+        message.info(str);
+    };
+    error = (str) => {
+        message.error(str);
+    };
+    //表单提交事件
+    handleSubmit = e => {
+        e.preventDefault();
+        console.log(this.props.form)
+        this.props.form.validateFields((err, values) => {
+            console.log(values);
+            if (!values.phone) {
+                this.error("请输入手机号！")
+                return;
+            }
+            if (!values.photo) {
+                this.error("请输入图形验证码！");
+                return;
+            }
+            if (!values.msgs) {
+                this.error("请输入短信验证码！");
+                return;
+            }
+            if (!err&&this.state.codeFlag&&this.state.photoCode) {
+                // console.log('Received values of form: ', values);
+                // console.log("正确");
+                console.log('登录成功！')
+            }else{
+                console.log("登录失败");
+            }
+        });
+    };
+    // 手机号码失焦点
+    phoneBlue(e) {
+        let { value } = e.target;
+        let exc = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+        value.match(exc) ? this.setState({ phone: true }) : this.setState({ phone: false });
+        console.log(value)
+    }
+    //出席验证码
+    sendCode() {
+        if (this.state.phone) {
+            let strNum = '';
+            for (let i = 0; i < 4; i++) {
+                strNum += Math.ceil(Math.random() * 8)
+            }
+            this.setState({ code: strNum });
+            // console.log(strNum)
+            this.info(`你的验证码是${strNum}`)
+        } else {
+            this.error('请输入手机号码!')
+            this.setState({ code: '' });
+        }
+    }
+    //验证码失去焦点
+    codeBlur = (e) => {
+        let { value } = e.target;
+        if (value) {
+            value == this.state.code ? this.setState({ codeFlag: true }) : this.setState({ codeFlag: false });
+        } else {
+            this.setState({ codeFlag: false });
+        }
+        console.log(this.state.codeFlag, this.state.code)
+    }
+    //加减的验证码失去焦点
+    photoCodeBlur = e => {
+        let { value } = e.target;
+        value == this.state.res ? this.setState({ photoCode: true }) : this.setState({ photoCode: false });
+        console.log(value);
+    }
+
+
+
+
+    //刷新验证码
+    fresh() {
+        let num1 = Math.ceil(Math.random() * 100);
+        let num2 = Math.ceil(Math.random() * 80);
+        this.setState({
+            num1,
+            num2,
+            res: num1 + num2
+        })
+        console.log(this.state.num1, this.state.num2, this.state.res)
+    }
+    //跳转页面
+    goto(path) {
+        this.props.history.push(path)
     }
     render() {
+        const { getFieldDecorator } = this.props.form;
         return (
-            <div ui-view="content"><div className="login"><div className="phone-nav"><ul className="wrapper">
-                <li className="item">
-                    <a ng-click="change_login_nav(1)" ng-className="{on:login_nav === 1}" >普通账户登录</a>
-                </li>
-                <li className="item">
-                    <a ng-click="change_login_nav(0)" ng-className="{on:login_nav === 0}" className="on" >手机动态码登录</a>
-                </li>
-            </ul>
+            <div ui-view="content"><div className="login">
+                <div className="phone-nav">
+                    <ul className="wrapper">
+                        <li className="item">
+                            <a onClick={this.goto.bind(this, '/userLogin')} >普通账户登录</a>
+                        </li>
+                        <li className="item">
+                            <a className="on" onClick={this.goto.bind(this, '/phoneLogin')} >手机动态码登录</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <Form onSubmit={this.handleSubmit} className="phoneLogin" >
+                    <Form.Item label="手机号">
+                        {getFieldDecorator('phone', {
+                            rules: [{ required: true, pattern: /^[1][3,4,5,7,8,9][0-9]{9}$/ }],
+                        })(
+                            <Input
+                                placeholder="用户名/手机号"
+                                onBlur={this.phoneBlue}
+                            />,
+                        )}
+                    </Form.Item>
+                    <Form.Item label="图形验证码">
+                        {getFieldDecorator('photo', {
+                            rules: [{ required: true }],
+                        })(
+                            <Input
+                                placeholder="请输入图形验证码"
+                                onBlur={this.photoCodeBlur}
+                            />,
+                        )}
+                    </Form.Item>
+                    <CheckCode num1={this.state.num1} num2={this.state.num2} fresh={this.fresh} />
+                    <Form.Item label="短信验证码">
+                        {getFieldDecorator('msgs', {
+                            rules: [{ required: true }],
+                        })(
+                            <Input
+                                placeholder="请输入短信验证码"
+                                onBlur={this.codeBlur}
+                            />,
+                        )}
+                    </Form.Item>
+                    <span className="getCode" onClick={this.sendCode}>获取验证码</span>
+                    <div class="reg-ele wrapper">
+                        <a ui-sref="pwd.forget" class="reg-link" >找回密码</a>
+                        <span>|</span>
+                        <a ui-sref="reg" class="reg-link" onClick={this.goto.bind(this, "/reg")}>立即注册</a>
+                    </div>
+                    <Form.Item>
+
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Log in
+          </Button>
+                    </Form.Item>
+
+
+                </Form>
             </div>
-                <form className="form ng-pristine ng-valid ng-valid-maxlength" my-validform="" ng-if="login_nav == 0" >
+            </div>
+        )
+    }
+}
+const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(PhoneLogin);
+// export default WrappedNormalLoginForm;
+export default Form.create({ name: 'normal_login' })(PhoneLogin);
+
+
+
+
+
+
+
+{/* <form className="form ng-pristine ng-valid ng-valid-maxlength" my-validform="" ng-if="login_nav == 0" >
                     <div className="ele">
                         <div className="wrapper">
                             <div className="label">手机号</div>
@@ -71,10 +255,6 @@ class PhoneLogin extends Component {
                     <div className="btn wrapper">
                         <input type="submit" value="提 交" />
                     </div>
-                </form>
-            </div>
-            </div>
-        )
-    }
-}
-export default PhoneLogin;
+                </form> */}
+
+

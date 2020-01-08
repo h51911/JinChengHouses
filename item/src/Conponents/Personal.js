@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import '../css/Personal.css'
 import Menu from './Menu';
+import {withRouter } from 'react-router-dom';
+import { message, Button } from 'antd';
 class Personal extends Component {
     constructor(props) {
         super(props)
+        console.log(this.props)
         this.state = {
             shop2: [{
                 "path": "my/category",
@@ -43,6 +46,21 @@ class Personal extends Component {
                 "title": "帮助中心"
             }]
         }
+    }
+    //  error = () => {
+    //     message.error('This is an error message');
+    //   };
+     error() {
+        message.error('请先登录，登录即可进入页面！');
+      };
+    //生命周期
+    componentDidMount(){
+    
+    if(!window.localStorage.getItem("user")){
+        
+        this.error();
+        this.props.history.push('/userLogin')
+    }
     }
     render() {
         return (
@@ -119,4 +137,4 @@ class Personal extends Component {
         )
     }
 }
-export default Personal;
+export default withRouter(Personal);
