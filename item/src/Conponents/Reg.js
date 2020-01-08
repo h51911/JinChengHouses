@@ -4,6 +4,7 @@ import '../css/house.css'
 import { Form, Icon, Input, Button, Checkbox, message, Alert } from 'antd';
 import CheckCode from './CheckCode';
 import '../css/Reg.css'
+import Axios from 'axios';
 message.config({
     top: 250,
     duration: 2,
@@ -31,48 +32,88 @@ class Reg extends Component {
     info = (str) => {
         message.config({
             top: 250,
-            duration: 2,
             maxCount: 3,
-            duration: 10
+            duration: 5
         })
         message.info(str);
     };
     error = (str) => {
+        message.config({
+            top: 250,
+            duration: 2,
+            maxCount: 3,
+        })
         message.error(str);
     };
+    success=(str)=>{
+        message.config({
+            duration: 3
+        })
+        message.success(str);
+    }
     //表单提交事件
     handleSubmit = e => {
         e.preventDefault();
         console.log(this.props.form)
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
+            let { phone, photo, msgs, password } = values;
             console.log(values);
-            if (!values.phone) {
+            if (!phone) {
                 this.error("请输入手机号！")
                 return;
             }
-            if (!values.photo) {
+            if (!photo) {
                 this.error("请输入图形验证码！");
                 return;
             }
-            if (!values.msgs) {
+            if (!msgs) {
                 this.error("请输入短信验证码！");
                 return;
             }
-            if (!err&&this.state.codeFlag&&this.state.photoCode) {
+            if (!password) {
+                this.error("请输入密码！");
+                return;
+            }
+
+            if (!err && this.state.codeFlag && this.state.photoCode) {
                 // console.log('Received values of form: ', values);
                 // console.log("正确");
-                console.log('登录成功！')
-            }else{
+                // console.log('登录成功！')
+                let { data } = await Axios.post('http://localhost:1912/user/reg',
+                    {
+                        user: phone,
+                        pwd:password,
+                        condition:'reg'
+                    })
+                    console.log(data);
+                    if(data.code){
+                        // message.success('注册成功！');
+                        this.success('注册成功！')
+                        this.props.history.push('/userLogin')
+                    }else{
+                        this.error("注册失败！");
+                    }
+
+
+            } else {
                 console.log("登录失败");
             }
         });
     };
     // 手机号码失焦点
-    phoneBlue(e) {
+    async phoneBlue(e) {
         let { value } = e.target;
         let exc = /^[1][3,4,5,7,8,9][0-9]{9}$/;
         value.match(exc) ? this.setState({ phone: true }) : this.setState({ phone: false });
-        console.log(value)
+        let { data } = await Axios.post('http://localhost:1912/user/reg',
+            {
+                user: value,
+            })
+        if (!data.code) {
+            this.error("你输入的账号已被占用！");
+        }
+
+        console.log(value, data, '验证code')
     }
     //出席验证码
     sendCode() {
@@ -129,60 +170,60 @@ class Reg extends Component {
         return (
             <div ui-view="content">
                 <div className="reg">
-                <Form onSubmit={this.handleSubmit} className="phoneLogin" >
-                    <Form.Item label="手机号">
-                        {getFieldDecorator('phone', {
-                            rules: [{ required: true, pattern: /^[1][3,4,5,7,8,9][0-9]{9}$/ }],
-                        })(
-                            <Input
-                                placeholder="用户名/手机号"
-                                onBlur={this.phoneBlue}
-                            />,
-                        )}
-                    </Form.Item>
-                    <Form.Item label="图形验证码">
-                        {getFieldDecorator('photo', {
-                            rules: [{ required: true }],
-                        })(
-                            <Input
-                                placeholder="请输入图形验证码"
-                                onBlur={this.photoCodeBlur}
-                            />,
-                        )}
-                    </Form.Item>
-                    <CheckCode num1={this.state.num1} num2={this.state.num2} fresh={this.fresh} />
-                    <Form.Item label="短信验证码">
-                        {getFieldDecorator('msgs', {
-                            rules: [{ required: true }],
-                        })(
-                            <Input
-                                placeholder="请输入短信验证码"
-                                onBlur={this.codeBlur}
-                            />,
-                        )}
-                    </Form.Item>
-                    <span className="getCode" onClick={this.sendCode}>获取验证码</span>
-                    <Form.Item label="密码">
-                        {getFieldDecorator('password', {
-                            rules: [{ required: true,min:6,max:12 }],
-                        })(
-                            <Input
-                                type="password"
-                                placeholder="请输入密码"
-                            />,
-                        )}
-                    </Form.Item>
-                    <div class="reg-ele wrapper">
-                        <span>已有账号?</span>
-                        <a ui-sref="reg" class="reg-link" onClick={this.goto.bind(this, "/phoneLogin")}>登录</a>
-                    </div>
-                    <Form.Item>
-                        <Button type="primary" htmlType="submit" className="reg-form-button">
-                            注册
+                    <Form onSubmit={this.handleSubmit} className="phoneLogin" >
+                        <Form.Item label="手机号">
+                            {getFieldDecorator('phone', {
+                                rules: [{ required: true, pattern: /^[1][3,4,5,7,8,9][0-9]{9}$/ }],
+                            })(
+                                <Input
+                                    placeholder="用户名/手机号"
+                                    onBlur={this.phoneBlue}
+                                />,
+                            )}
+                        </Form.Item>
+                        <Form.Item label="图形验证码">
+                            {getFieldDecorator('photo', {
+                                rules: [{ required: true }],
+                            })(
+                                <Input
+                                    placeholder="请输入图形验证码"
+                                    onBlur={this.photoCodeBlur}
+                                />,
+                            )}
+                        </Form.Item>
+                        <CheckCode num1={this.state.num1} num2={this.state.num2} fresh={this.fresh} />
+                        <Form.Item label="短信验证码">
+                            {getFieldDecorator('msgs', {
+                                rules: [{ required: true }],
+                            })(
+                                <Input
+                                    placeholder="请输入短信验证码"
+                                    onBlur={this.codeBlur}
+                                />,
+                            )}
+                        </Form.Item>
+                        <span className="getCode" onClick={this.sendCode}>获取验证码</span>
+                        <Form.Item label="密码">
+                            {getFieldDecorator('password', {
+                                rules: [{ required: true, min: 6, max: 12 }],
+                            })(
+                                <Input
+                                    type="password"
+                                    placeholder="请输入密码"
+                                />,
+                            )}
+                        </Form.Item>
+                        <div class="reg-ele wrapper">
+                            <span>已有账号?</span>
+                            <a ui-sref="reg" class="reg-link" onClick={this.goto.bind(this, "/phoneLogin")}>登录</a>
+                        </div>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" className="reg-form-button">
+                                注册
           </Button>
-                    </Form.Item>
-                </Form>
-            </div>
+                        </Form.Item>
+                    </Form>
+                </div>
             </div>
         )
     }

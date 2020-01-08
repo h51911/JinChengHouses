@@ -3,6 +3,7 @@ import '../css/inoic.css'
 import '../css/house.css'
 import { Form, Icon, Input, Button, Checkbox, message, Alert } from 'antd';
 import CheckCode from './CheckCode';
+import Axios from 'axios';
 message.config({
     top: 250,
     duration: 2,
@@ -30,9 +31,8 @@ class PhoneLogin extends Component {
     info = (str) => {
         message.config({
             top: 250,
-            duration: 2,
             maxCount: 3,
-            duration: 10
+            duration: 5
         })
         message.info(str);
     };
@@ -43,7 +43,7 @@ class PhoneLogin extends Component {
     handleSubmit = e => {
         e.preventDefault();
         console.log(this.props.form)
-        this.props.form.validateFields((err, values) => {
+        this.props.form.validateFields(async (err, values) => {
             console.log(values);
             if (!values.phone) {
                 this.error("请输入手机号！")
@@ -57,11 +57,24 @@ class PhoneLogin extends Component {
                 this.error("请输入短信验证码！");
                 return;
             }
-            if (!err&&this.state.codeFlag&&this.state.photoCode) {
+            if (!err && this.state.codeFlag && this.state.photoCode) {
                 // console.log('Received values of form: ', values);
                 // console.log("正确");
-                console.log('登录成功！')
-            }else{
+                let { data } = await Axios.get('http://localhost:1912/user/login', {
+                    params: {
+                        user: values.phone,
+                    }
+                })
+                console.log('登录成功！', data)
+                if (window.localStorage.setItem("user", values.phone)) {//如果已经登录执行这分支
+                    this.error("你已经登录了！");
+                    this.props.history.push('/home')
+                } else {//没登录时，执行这个分支
+
+                    window.localStorage.setItem("user", values.phone);
+                    this.props.history.push('/personal')
+                }
+            } else {
                 console.log("登录失败");
             }
         });
@@ -72,6 +85,7 @@ class PhoneLogin extends Component {
         let exc = /^[1][3,4,5,7,8,9][0-9]{9}$/;
         value.match(exc) ? this.setState({ phone: true }) : this.setState({ phone: false });
         console.log(value)
+        
     }
     //出席验证码
     sendCode() {

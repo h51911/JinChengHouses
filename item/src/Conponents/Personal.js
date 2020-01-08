@@ -91,7 +91,7 @@ class Personal extends Component {
                     <div class="pic">
                         <img ng-src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" alt="" src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" />
                     </div>
-                    <div class="name ng-binding">欢迎你，17825013321</div>
+                    <div class="name ng-binding">欢迎你，<span>{window.localStorage.getItem("user")}</span></div>
                 </div>
                     <div class="menus">
                         <Menu data={this.state.shop2}/>
