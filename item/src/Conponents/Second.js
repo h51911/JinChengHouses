@@ -3,6 +3,11 @@ import '../css/Second.css'
 import Menu from './Menu';
 import Interval from './Interval';
 import Shop2 from './Shop2';
+import { Icon } from 'antd';
+import IconSite from '../prot'//Icon项目网址
+const MyIcon = Icon.createFromIconfontCN({
+    scriptUrl: IconSite, // 在 iconfont.cn 上生成
+});
 class Second extends Component {
     constructor(props) {
         super(props)
@@ -129,13 +134,15 @@ class Second extends Component {
                     <Shop2 shop2={this.state.shop2} condition="二手" />
                 </div>
                 {/* 底部 */}
-                <div  className="container dcontact">
-                    <a  href="tel:13223565678">
-                        <div  className="tel-box">
+                <div className="container dcontact">
+                    <a>
+                        <div className="tel-box">
                             <span >晋城房产网</span>
                             客服热线：<em >13223565678</em>
                         </div>
-                        <i  className="iconfont icon-tubiao49"></i>
+                        {/* <i className=" icon-tubiao49"> */}
+                        <MyIcon type="icon-dianhua1" className="icon-tubiao49" />
+                        {/* </i> */}
                     </a>
                 </div>
 

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../css/Issue.css'
 import { Icon } from 'antd';
 import Interval from './Interval';
+import { message } from 'antd';
+import { withRouter } from 'react-router-dom';
 class Issue extends Component {
     constructor(props) {
         super(props)
@@ -56,18 +58,33 @@ class Issue extends Component {
                 }]
             }]
         }
+        this.goto = this.goto.bind(this);
+    }
+    error() {
+        message.error('请先登录，登录即可进入页面！');
+    };
+    //生命周期
+    componentDidMount() {
+        if (!window.localStorage.getItem("user")) {
+            this.error();
+            this.props.history.push('/userLogin')
+        }
+    }
+    //跳转
+    goto(path) {
+        this.props.history.push(path);
     }
     render() {
         return (
             <>
                 <div ui-view="header" data-tap-disabled="true">
                     <header class="title-bar title-bar-hasbg">
-                        <a ng-click="header_back()" class="iconfont back">
+                        <a ng-click="header_back()" class="iconfont back" onClick={() => this.props.history.goBack()}>
                             ‹
                         </a>
                         <h1 ng-bind="config.title" class="ng-binding">选择发布类目</h1>
                         <div class="operate">
-                            <a ui-sref="my" class="iconfont" href="#/my"><Icon type="home" /></a>
+                            <a class="iconfont" onClick={this.goto.bind(this, '/home')}><Icon type="home" /></a>
                         </div>
                     </header>
                     <div class="other-header">
@@ -126,10 +143,10 @@ class Issue extends Component {
                             ))
                         }
                     </div>
-                    <Interval/>
+                    <Interval />
                 </div>
             </>
         )
     }
 }
-export default Issue;
+export default withRouter(Issue);

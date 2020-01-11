@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/inoic.css'
 import '../css/house.css'
-import { Form, Icon, Input, Button, Checkbox, message, Alert } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import CheckCode from './CheckCode';
 import Axios from 'axios';
 message.config({
@@ -37,8 +37,15 @@ class PhoneLogin extends Component {
         message.info(str);
     };
     error = (str) => {
+        message.config({
+            duration: 2
+        })
         message.error(str);
     };
+    //成功
+    success = (str) => {
+        message.success(str)
+    }
     //表单提交事件
     handleSubmit = e => {
         e.preventDefault();
@@ -58,8 +65,6 @@ class PhoneLogin extends Component {
                 return;
             }
             if (!err && this.state.codeFlag && this.state.photoCode) {
-                // console.log('Received values of form: ', values);
-                // console.log("正确");
                 let { data } = await Axios.get('http://localhost:1912/user/login', {
                     params: {
                         user: values.phone,
@@ -70,7 +75,7 @@ class PhoneLogin extends Component {
                     this.error("你已经登录了！");
                     this.props.history.push('/home')
                 } else {//没登录时，执行这个分支
-
+                    this.success("登录成功！");
                     window.localStorage.setItem("user", values.phone);
                     this.props.history.push('/personal')
                 }
@@ -85,7 +90,7 @@ class PhoneLogin extends Component {
         let exc = /^[1][3,4,5,7,8,9][0-9]{9}$/;
         value.match(exc) ? this.setState({ phone: true }) : this.setState({ phone: false });
         console.log(value)
-        
+
     }
     //出席验证码
     sendCode() {

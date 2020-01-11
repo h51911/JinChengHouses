@@ -554,3 +554,19 @@ a {
 .v3-seek-foot ul li + li[data-v-78d9f94c] {
     border-left: 1px solid #fff;
 }
+.detail-cover{
+    width: 100%;
+    height: 4.2rem;
+}
+.detail-cover img{
+    width: 100%;
+    height: 4.2rem;
+}
+.goTop{
+    display: block;
+    position: fixed;
+    right: .2rem;
+    bottom: 1.6rem;
+    z-index: 5;
+    font-size: .8rem;
+}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/inoic.css'
 import '../css/house.css'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import '../css/Login.css'
 import Interval from './Interval';
 import Axios from 'axios';
@@ -30,33 +30,22 @@ class UserLogin extends React.Component {
                 return;
             }
             if (!err) {
-                // console.log('Received values of form: ', values);
-                // console.log("正确");
-              
-                let  {data}  = await Axios.post('http://localhost:1912/user/getUser', {
+                let { data } = await Axios.post('http://localhost:1912/user/getUser', {
                     user: username,
                     pwd: password
                 })
 
-                if(data.code){
-                    if(window.localStorage.setItem("user",username)){//如果已经登录执行这分支
-                      this.error("你已经登录了！");
-                      this.props.history.push('/home')
-                    }else{//没登录时，执行这个分支
-
-                        window.localStorage.setItem("user",username);
-                        // history.back();
+                if (data.code) {
+                    if (window.localStorage.setItem("user", username)) {//如果已经登录执行这分支
+                        this.error("你已经登录了！");
+                        this.props.history.push('/home')
+                    } else {//没登录时，执行这个分支
+                        this.success("登录成功！");
+                        window.localStorage.setItem("user", username);
                         this.props.history.push('/personal')
                     }
                 }
-                // let { datas } = await Axios.get('http://localhost:1912/user/getUser', {
-                // params:{
 
-                //     user: username,
-                //         pwd: password
-                // }    
-                // })
-                // console.log(data, 'sdfff');
             }
         });
     };
@@ -69,6 +58,10 @@ class UserLogin extends React.Component {
         });
         message.error(str);
     };
+    //成功
+    success = (str) => {
+        message.success(str)
+    }
     handleConfirmBlur = e => {
         const { value } = e.target;
         console.log(value);
@@ -94,8 +87,7 @@ class UserLogin extends React.Component {
                         {getFieldDecorator('username', {
                             rules: [{ required: true }],
                         })(
-                            // <div class="label">账<span class="ml">户</span>
-                            //              </div>
+
                             <Input
                                 placeholder="用户名/手机号"
                                 onBlur={this.handleConfirmBlur}
@@ -106,8 +98,7 @@ class UserLogin extends React.Component {
                         {getFieldDecorator('password', {
                             rules: [{ required: true }],
                         })(
-                            // <div class="label"><span class="ml">户</span>
-                            //                              </div>
+
                             <Input
                                 type="password"
                                 placeholder="请输入密码"
@@ -120,15 +111,10 @@ class UserLogin extends React.Component {
                         <a ui-sref="reg" class="reg-link" onClick={this.goto.bind(this, "/reg")}>立即注册</a>
                     </div>
                     <Form.Item>
-                        {/* 
-                        <a className="login-form-forgot" href="">
-                            Forgot password
-                        </a> */}
 
                         <Button type="primary" htmlType="submit" className="login-form-button">
                             Log in
           </Button>
-                        {/* Or <a href="">register now!</a> */}
                     </Form.Item>
 
 

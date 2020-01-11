@@ -1,26 +1,87 @@
 import React, { Component } from 'react';
 import '../css/Detail.css'
+import { withRouter } from 'react-router-dom';
+import Axios from 'axios';
+import { connect } from 'react-redux';
+import { message } from 'antd';
+import { changeQty, remove, clear, add2cart } from '../store/actions/cart'
+
+
+const mapStateToProps = state => {
+    return {
+        cartlist: state.cart.cartlist,
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        addToCart() {
+            if (window.localStorage.getItem("user")) {
+                let { img, title, sid, pf } = this.state.data;
+                let goods = {
+                    img,
+                    title,
+                    sid,
+                    pf,
+                    user: window.localStorage.getItem('user')
+                }
+                dispatch({
+                    type: 'ADD_TO_CART_ASYNC',
+                    payload: goods
+                })
+            } else {
+                message.error('预约失败，请先登录！');
+                this.props.history.push('/userLogin');
+                // console.log(this.props)
+            }
+            // console.log(this.props.cartlist, this.props, '预约', '333')
+
+
+
+
+
+        }
+    }
+
+}
 class Detail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            data: {}
         }
+        console.log(this.props)
+    }
+    //生命周期
+    async componentDidMount() {
+        let index = this.props.location.pathname.lastIndexOf("/");
+        let id = this.props.location.pathname.slice(index + 1);
+        console.log(index, id);
+        let { data } = await Axios.get('http://localhost:1912/goods2/single', {
+            params: {
+                id
+            }
+        })
+        this.setState({ data: data[0] })
+        console.log(data[0], 'result')
+
     }
     // 渲染
     render() {
+        const { data } = this.state;
+        // console.log(data.img)
+        console.log(data, '这是数据！')
         return (
             <div className="detail">
                 <header data-v-e6a10626="" class="header-nav">
                     <div data-v-e6a10626="" class="flex flex-main-justify header-box">
                         <div data-v-e6a10626="" class="header-left">
-                            <a data-v-e6a10626="" href="javascript:void(0);" class="iconfont icon-leftarrow">‹</a>
+                            <a data-v-e6a10626="" href="javascript:void(0);" class="iconfont icon-leftarrow" onClick={() => this.props.history.goBack()}>‹</a>
                         </div>
                         <div data-v-e6a10626="" class="header-middle text-overflow flex flex-cross-center">
-                            <div data-v-e6a10626="" class="title">和平里</div>
+                            <div data-v-e6a10626="" class="title"> {data.title}</div>
                         </div>
                         <div data-v-e6a10626="" class="header-right">
-                            <a data-v-e6a10626="" href="#/" class="iconfont icon-house router-link-active">
+                            <a data-v-e6a10626="" class="iconfont icon-house router-link-active">
                             </a>
                             <a data-v-e6a10626="" href="javascript:void(0)" class="iconfont user-icon user">
                                 <img data-v-e6a10626="" src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" />
@@ -32,17 +93,18 @@ class Detail extends Component {
                 <div id="app-container" class="app-container" style={{ background: 'rgb(245, 245, 245)', paddingTop: '0.88rem' }}>
                     <div data-v-21efdb9e="" class="v3-house-detail v3-xf-detail">
                         <div data-v-8a836e44="" data-v-21efdb9e="" class="detail-cover">
-                            <img src='' />
+                            <img src={data.img} />
                         </div>
                         {/* 地产名字 */}
                         <div data-v-21efdb9e="" class="house-name">
                             <div data-v-21efdb9e="" class="house-title">
-                                和平里
-                        </div>
+                                {data.title}
+                            </div>
                             <div data-v-21efdb9e="" class="house-price">
-                                价格待定
-                            <span data-v-21efdb9e="" class="bg-l-blue">待售</span>
-                                <a data-v-21efdb9e="" href="javascript:void(0)" class="hongbao" style={{display: 'none'}}></a>
+                                {/* 价格待定 */}
+                                {data.pf == 0 ? '价格待定' : `均价${data.pf}元/㎡`}
+                                <span data-v-21efdb9e="" class="bg-l-blue">待售</span>
+                                <a data-v-21efdb9e="" href="javascript:void(0)" class="hongbao" style={{ display: 'none' }}></a>
                             </div>
                             <div data-v-21efdb9e="" class="house-time c-999">更新时间：2019-11-15</div>
                             <div data-v-21efdb9e="" class="house-tags">
@@ -53,7 +115,7 @@ class Detail extends Component {
                         <div data-v-21efdb9e="" class="house-message">
                             <ul data-v-21efdb9e="">
                                 <li data-v-21efdb9e="">
-                                    <a data-v-21efdb9e="" href="#/mapround/628?from=xf" >
+                                    <a data-v-21efdb9e="" >
                                         <p data-v-21efdb9e="" class="text-overflow">
                                             <i data-v-21efdb9e="" class="iconfont icon-add">
                                             </i>
@@ -64,7 +126,7 @@ class Detail extends Component {
                                     </a>
                                 </li>
                                 <li data-v-21efdb9e="">
-                                    <a data-v-21efdb9e="" href="#/new/detail/xf/628/plot?pos=kp" >
+                                    <a data-v-21efdb9e=""  >
                                         <p data-v-21efdb9e="" class="text-overflow">
                                             <i data-v-21efdb9e="" class="iconfont icon-time">
                                             </i>
@@ -75,7 +137,7 @@ class Detail extends Component {
                                     </a>
                                 </li>
                                 <li data-v-21efdb9e="">
-                                    <a data-v-21efdb9e="" href="#/new/list/xfhx/628?title=%E5%92%8C%E5%B9%B3%E9%87%8C" >
+                                    <a data-v-21efdb9e=""  >
                                         <p data-v-21efdb9e="" class="text-overflow">
                                             <i data-v-21efdb9e="" class="iconfont icon-type">
                                             </i>
@@ -87,7 +149,7 @@ class Detail extends Component {
                                     </a>
                                 </li>
                                 <li data-v-21efdb9e="">
-                                    <a data-v-21efdb9e="" href="tel:4008500356,7886">
+                                    <a data-v-21efdb9e="" >
                                         <p data-v-21efdb9e="">
                                             <i data-v-21efdb9e="" class="iconfont icon-dtel">
                                             </i>
@@ -99,15 +161,15 @@ class Detail extends Component {
                                 </li>
                             </ul>
                             <div data-v-21efdb9e="" class="house-message-btn">
-                                <a data-v-21efdb9e="" href="#/new/detail/xf/628/plot" class="btn-link">
+                                <a data-v-21efdb9e="" class="btn-link">
                                     查看楼盘详细资料
       </a>
                                 <div data-v-21efdb9e="" class="flex flex-box-mean">
-                                    <a data-v-21efdb9e="" href="#/new/order?type=open&amp;rid=628&amp;from=%E5%BC%80%E7%9B%98%E9%80%9A%E7%9F%A5&amp;spm_a=wap%E6%A5%BC%E7%9B%98%E8%AF%A6%E7%BB%86%E9%A1%B5&amp;plot=%E5%92%8C%E5%B9%B3%E9%87%8C" class="text-link c-pinkish">
+                                    <a data-v-21efdb9e="" class="text-link c-pinkish">
                                         <i data-v-21efdb9e="" class="iconfont icon-tongzhi"></i>
                                         开盘通知
               </a>
-                                    <a data-v-21efdb9e="" href="#/new/order?type=priceoff&amp;rid=628&amp;from=%E5%8F%98%E4%BB%B7%E9%80%9A%E7%9F%A5&amp;spm_a=wap%E6%A5%BC%E7%9B%98%E8%AF%A6%E7%BB%86%E9%A1%B5&amp;plot=%E5%92%8C%E5%B9%B3%E9%87%8C" class="text-link c-pinkish">
+                                    <a data-v-21efdb9e="" class="text-link c-pinkish">
                                         <i data-v-21efdb9e="" class="iconfont icon-bianjia">
                                         </i>变价通知
                        </a>
@@ -119,7 +181,7 @@ class Detail extends Component {
                             <div data-v-21efdb9e="" class="blank20 bg-f5">
                             </div>
                             <div data-v-21efdb9e="" class="big-title">
-                                <a data-v-21efdb9e="" href="#/new/list/xfhx/628?title=%E5%92%8C%E5%B9%B3%E9%87%8C" >
+                                <a data-v-21efdb9e="" >
                                     主力户型(6)
         <i data-v-21efdb9e="" class="iconfont icon-youjiantou">
                                     </i>
@@ -128,7 +190,7 @@ class Detail extends Component {
                             <div data-v-752e9bbd="" data-v-21efdb9e="" class="room-list-line-component">
                                 <ul data-v-752e9bbd="" class="clearfix">
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/639" >
+                                        <a data-v-752e9bbd=""  >
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688787815857758616.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -139,7 +201,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/638" >
+                                        <a data-v-752e9bbd=""  >
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688787451916931766.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -150,7 +212,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/637" >
+                                        <a data-v-752e9bbd="">
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688786999166299245.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -161,7 +223,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/636" >
+                                        <a data-v-752e9bbd=""  >
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688786541975781480.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -172,7 +234,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/635" >
+                                        <a data-v-752e9bbd=""  >
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688785781218445333.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -183,7 +245,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-752e9bbd="">
-                                        <a data-v-752e9bbd="" href="#/new/detail/room/634" >
+                                        <a data-v-752e9bbd=""  >
                                             <div data-v-752e9bbd="" class="thumb">
                                                 <img data-v-752e9bbd="" src="https://pics-house.0356f.com/2019/0919/15688785019142280995.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                 <span data-v-752e9bbd="" class="room-status bg-l-blue">即将开盘</span>
@@ -210,51 +272,51 @@ class Detail extends Component {
                                         <li class="on"><span>1期</span></li>
                                     </ul>
                                 </div>
-                                <div class="period-wrapper" style={{overflow: 'hidden', height: 'auto'}}>
-                                    <div class="mark-container" style={{position: 'static'}}>
-                                        <div class="sale-mark" style={{left: '16.9412%', top: '46.4503%'}}>
+                                <div class="period-wrapper" style={{ overflow: 'hidden', height: 'auto' }}>
+                                    <div class="mark-container" style={{ position: 'static' }}>
+                                        <div class="sale-mark" style={{ left: '16.9412%', top: '46.4503%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">1#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '31.4118%', top: '35.497%'}}>
+                                        <div class="sale-mark" style={{ left: '31.4118%', top: '35.497%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">2#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '47.6471%', top: '42.7992%'}}>
+                                        <div class="sale-mark" style={{ left: '47.6471%', top: '42.7992%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">3#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '56.2353%', top: '27.3834%'}}>
+                                        <div class="sale-mark" style={{ left: '56.2353%', top: '27.3834%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">4#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '64.2353%', top: '43.8134%'}}>
+                                        <div class="sale-mark" style={{ left: '64.2353%', top: '43.8134%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">5#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '74.2353%', top: '28.1947%'}}>
+                                        <div class="sale-mark" style={{ left: '74.2353%', top: '28.1947%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">6#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <div class="sale-mark" style={{left: '81.5294%', top: '46.6531%'}}>
+                                        <div class="sale-mark" style={{ left: '81.5294%', top: '46.6531%' }}>
                                             <dl>
                                                 <dt class="bg-l-blue">7#楼</dt>
                                                 <dd>待售</dd>
                                             </dl>
                                         </div>
-                                        <img src="https://pics-house.0356f.com/2019/0815/15658539265776133424.png" class="period-img" style={{width: '100%', minHeight:'auto'}} />
+                                        <img src="https://pics-house.0356f.com/2019/0815/15658539265776133424.png" class="period-img" style={{ width: '100%', minHeight: 'auto' }} />
                                     </div>
                                 </div>
                             </div>
@@ -265,18 +327,18 @@ class Detail extends Component {
                         <section data-v-21efdb9e=""><div data-v-21efdb9e="" class="blank20 bg-f5">
                         </div>
                             <div data-v-21efdb9e="" class="big-title">
-                                <a data-v-21efdb9e="" href="#/new/list/zx?hid=628" class="">
+                                <a data-v-21efdb9e="" class="">
                                     楼盘资讯(14)
         <i data-v-21efdb9e="" class="iconfont icon-youjiantou"></i>
                                 </a>
                             </div>
-                            <div data-v-21efdb9e="" class="xfd-news-list"><a data-v-21efdb9e="" href="#/new/detail/zx/1469" class="">
+                            <div data-v-21efdb9e="" class="xfd-news-list"><a data-v-21efdb9e="" class="">
                                 <dl data-v-21efdb9e="">
                                     <dt data-v-21efdb9e="">9月19日，三建和平里样板间盛大开放，诠释新奢主义生活</dt>
                                     <dd data-v-21efdb9e="">不惊艳 不谋面！9月19日，晋城和平里样板间倾城盛放;新奢主义实景样板...</dd>
                                 </dl>
                             </a>
-                                <a data-v-21efdb9e="" href="#/new/detail/zx/1458" class="">
+                                <a data-v-21efdb9e="" class="">
                                     <dl data-v-21efdb9e="">
                                         <dt data-v-21efdb9e="">素手匠心，同心协力，在和平里他们过了一个完美的中秋节</dt>
                                         <dd data-v-21efdb9e="">走过了春夏，看过了百花，我们把回忆拾起，把思念复制，在隐约的丹桂清...</dd>
@@ -288,7 +350,7 @@ class Detail extends Component {
                         <section data-v-21efdb9e=""><div data-v-21efdb9e="" class="blank20 bg-f5">
                         </div>
                             <div data-v-21efdb9e="" class="big-title">
-                                <a data-v-21efdb9e="" href="#/new/list/wenda?hid=628&amp;plot=%E5%92%8C%E5%B9%B3%E9%87%8C" class="">
+                                <a data-v-21efdb9e="" class="">
                                     楼盘问答(9)
         <i data-v-21efdb9e="" class="iconfont icon-youjiantou"></i>
                                 </a>
@@ -323,13 +385,13 @@ class Detail extends Component {
                         {/* 位置及周边 */}
                         <section data-v-21efdb9e="">
                             <div data-v-21efdb9e="" class="blank20 bg-f5">
-                            </div> <a data-v-21efdb9e="" href="#/mapround/628?from=xf" class="full">
+                            </div> <a data-v-21efdb9e="" class="full">
                                 <div data-v-21efdb9e="" class="big-title">
                                     位置及周边
         <i data-v-21efdb9e="" class="iconfont icon-youjiantou"></i>
                                 </div>
                                 <div data-v-eaa995e4="" data-v-21efdb9e="" class="zhoubian-map">
-                                    <img data-v-eaa995e4="" src="https://api.map.baidu.com/staticimage/v2?ak=415167759dc5861ddbbd14154f760c7e&amp;mcode=666666&amp;coordtype=666666&amp;copyright=1&amp;coordtype=bd09ll&amp;center=112.8988860000,35.5101270000&amp;markers=112.8988860000,35.5101270000&amp;markerStyles=-1,http://s.hangjiayun.com/house/static/import/map-marker.png,&amp;width=600&amp;height=300&amp;zoom=18" style={{display: 'block', width: '100%'}} />
+                                    <img data-v-eaa995e4="" src="https://api.map.baidu.com/staticimage/v2?ak=415167759dc5861ddbbd14154f760c7e&amp;mcode=666666&amp;coordtype=666666&amp;copyright=1&amp;coordtype=bd09ll&amp;center=112.8988860000,35.5101270000&amp;markers=112.8988860000,35.5101270000&amp;markerStyles=-1,http://s.hangjiayun.com/house/static/import/map-marker.png,&amp;width=600&amp;height=300&amp;zoom=18" style={{ display: 'block', width: '100%' }} />
                                     <p data-v-eaa995e4="" class="container text-overflow">武庄路东侧，新市东街南侧</p>
                                 </div>
                             </a>
@@ -338,7 +400,7 @@ class Detail extends Component {
                         <section data-v-21efdb9e="" class="esf-data">
                             <div data-v-21efdb9e="" class="blank20 bg-f5"></div>
                             <div data-v-21efdb9e="" class="big-title">
-                                <a data-v-21efdb9e="" href="#/list/sell/esf?id=628&amp;title=%E5%92%8C%E5%B9%B3%E9%87%8C" class="">二手房
+                                <a data-v-21efdb9e="" class="">二手房
         <i data-v-21efdb9e="" class="iconfont icon-youjiantou">
                                     </i>
                                 </a>
@@ -346,7 +408,7 @@ class Detail extends Component {
                             <div data-v-6e051e97="" data-v-21efdb9e="" class="esf-list-component">
                                 <ul data-v-6e051e97="">
                                     <li data-v-6e051e97="" class="item">
-                                        <a data-v-6e051e97="" href="#/detail/sell/zz/1527" class="">
+                                        <a data-v-6e051e97="" class="">
                                             <div data-v-6e051e97="" class="thumb">
                                                 <img data-v-6e051e97="" src="https://pics-house.0356f.com/2019/1231/15777867740728923203.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                             </div>
@@ -363,7 +425,7 @@ class Detail extends Component {
               </div>
                                                 </div>
                                                 <div data-v-6e051e97="" class="r-condition">
-                                                    <div data-v-6e051e97="" class="house-tags" style={{width: '3.2rem'}}>
+                                                    <div data-v-6e051e97="" class="house-tags" style={{ width: '3.2rem' }}>
                                                         <span data-v-6e051e97="" class="house-tag">优质教育</span>
                                                         <span data-v-6e051e97="" class="house-tag">精装修</span>
                                                     </div>
@@ -373,7 +435,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-6e051e97="" class="item">
-                                        <a data-v-6e051e97="" href="#/detail/sell/zz/1505" class="">
+                                        <a data-v-6e051e97="" class="">
                                             <div data-v-6e051e97="" class="thumb">
                                                 <img data-v-6e051e97="" src="https://pics-house.0356f.com/2019/1224/15771759023112267333.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                             </div>
@@ -390,7 +452,7 @@ class Detail extends Component {
               </div>
                                                 </div>
                                                 <div data-v-6e051e97="" class="r-condition">
-                                                    <div data-v-6e051e97="" class="house-tags" style={{width: '3.2rem'}}>
+                                                    <div data-v-6e051e97="" class="house-tags" style={{ width: '3.2rem' }}>
                                                         <span data-v-6e051e97="" class="house-tag">优质教育</span>
                                                         <span data-v-6e051e97="" class="house-tag">繁华地段</span>
                                                         <span data-v-6e051e97="" class="house-tag">满五唯一</span>
@@ -403,7 +465,7 @@ class Detail extends Component {
                                         </a>
                                     </li>
                                     <li data-v-6e051e97="" class="item">
-                                        <a data-v-6e051e97="" href="#/detail/sell/zz/1516" class="">
+                                        <a data-v-6e051e97="" class="">
                                             <div data-v-6e051e97="" class="thumb">
                                                 <img data-v-6e051e97="" src="https://pics-house.0356f.com/2019/1225/15772439751673588109.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                             </div>
@@ -420,7 +482,7 @@ class Detail extends Component {
                                                     <div data-v-6e051e97="" class="r-price fr"><em data-v-6e051e97="">74</em>万
               </div>
                                                 </div>
-                                                <div data-v-6e051e97="" class="r-condition"><div data-v-6e051e97="" class="house-tags" style={{width: '3.2rem'}}>
+                                                <div data-v-6e051e97="" class="r-condition"><div data-v-6e051e97="" class="house-tags" style={{ width: '3.2rem' }}>
                                                     <span data-v-6e051e97="" class="house-tag">南北通透</span>
                                                     <span data-v-6e051e97="" class="house-tag">交通便利</span>
                                                 </div>
@@ -442,7 +504,7 @@ class Detail extends Component {
                                 <ul data-v-63dc00b3="">
                                     <li data-v-63dc00b3="" class="item">
                                         <div data-v-63dc00b3="" class="inner">
-                                            <a data-v-63dc00b3="" href="#/new/detail/xf/598" class="">
+                                            <a data-v-63dc00b3="" class="">
                                                 <div data-v-63dc00b3="" class="thumb">
                                                     <img data-v-63dc00b3="" src="https://pics-house.0356f.com/2019/0416/15553811074141247177.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                     <span data-v-63dc00b3="" class="status bg-pinkish">在售</span>
@@ -463,12 +525,12 @@ class Detail extends Component {
                                                         <span data-v-63dc00b3="" class="no">9000</span>元/㎡
               </div>
                                                 </div></a>
-                                            <a data-v-63dc00b3="" href="tel:4008500356转3095 " class="call iconfont icon-tel"></a>
+                                            <a data-v-63dc00b3="" class="call iconfont icon-tel"></a>
                                         </div>
                                     </li>
                                     <li data-v-63dc00b3="" class="item">
                                         <div data-v-63dc00b3="" class="inner">
-                                            <a data-v-63dc00b3="" href="#/new/detail/xf/67" class="">
+                                            <a data-v-63dc00b3="" class="">
                                                 <div data-v-63dc00b3="" class="thumb">
                                                     <img data-v-63dc00b3="" src="https://pics-house.0356f.com/2019/0218/15504547592302504919.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                     <span data-v-63dc00b3="" class="status bg-pinkish">在售</span>
@@ -490,13 +552,13 @@ class Detail extends Component {
               </div>
                                                 </div>
                                             </a>
-                                            <a data-v-63dc00b3="" href="tel:4008500356转8789" class="call iconfont icon-tel">
+                                            <a data-v-63dc00b3="" class="call iconfont icon-tel">
                                             </a>
                                         </div>
                                     </li>
                                     <li data-v-63dc00b3="" class="item">
                                         <div data-v-63dc00b3="" class="inner">
-                                            <a data-v-63dc00b3="" href="#/new/detail/xf/76" class="">
+                                            <a data-v-63dc00b3="" class="">
                                                 <div data-v-63dc00b3="" class="thumb">
                                                     <img data-v-63dc00b3="" src="https://pics-house.0356f.com/2019/0218/15504547867781446289.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                     <span data-v-63dc00b3="" class="status bg-pinkish">在售</span>
@@ -519,7 +581,7 @@ class Detail extends Component {
               </div>
                                                 </div>
                                             </a>
-                                            <a data-v-63dc00b3="" href="tel:4008500356转8801" class="call iconfont icon-tel">
+                                            <a data-v-63dc00b3="" class="call iconfont icon-tel">
                                             </a>
                                         </div>
                                     </li>
@@ -527,7 +589,7 @@ class Detail extends Component {
                             </div>
                             <div data-v-21efdb9e="" class="no-responsibility bd-top c-999">
                                 免责声明：楼盘信息由开发企业提供,最终以政府部门登记备案为准,请谨慎核查。如楼盘信息有误请拨打
-      <a data-v-21efdb9e="" href="tel:0356-8885356"> 0356-8885356 </a>反馈纠错。
+      <a data-v-21efdb9e="" > 0356-8885356 </a>反馈纠错。
     </div>
                         </section>
                         {/* 说明免责 */}
@@ -536,16 +598,16 @@ class Detail extends Component {
                         <div data-v-78d9f94c="" data-v-21efdb9e="" class="v3-seek-foot bottom-fixed">
                             <ul data-v-78d9f94c="" class="flex flex-box-mean">
                                 <li data-v-78d9f94c="">
-                                    <a data-v-78d9f94c="" href="tel:4008500356,7886">
+                                    <a data-v-78d9f94c="" >
                                         <i data-v-78d9f94c="" class="iconfont icon-dianhua"></i>电话咨询
       </a>
                                 </li>
                                 <li data-v-78d9f94c="">
-                                    <a data-v-78d9f94c="" href="mqqwpa://im/chat?chat_type=wpa&amp;uin=1141140356&amp;version=1&amp;src_type=web&amp;web_src=null">
+                                    <a data-v-78d9f94c="" >
                                         <i data-v-78d9f94c="" class="iconfont icon-qq"></i>QQ咨询
       </a>
                                 </li>
-                                <li data-v-78d9f94c="">
+                                <li data-v-78d9f94c="" onClick={this.props.addToCart.bind(this)}>
                                     <i data-v-78d9f94c="" class="iconfont icon-clock1"></i>预约看房
     </li>
                             </ul>
@@ -571,4 +633,7 @@ class Detail extends Component {
         )
     }
 }
-export default Detail;
+
+
+Detail = connect(mapStateToProps, mapDispatchToProps)(Detail);
+export default withRouter(Detail);

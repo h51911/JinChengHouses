@@ -22,7 +22,7 @@ class Shop2 extends Component {
                                     {
                                         item.shop.map(item => (
                                             <li className="item" key={item.title} data-id={item.id}>
-                                                <a href="#/detail/sell/zz/1513">
+                                                <a >
                                                     <div className="thumb">
                                                         <img src={item.img} />
                                                     </div>
@@ -72,7 +72,7 @@ class Shop2 extends Component {
 
                 {
                     this.props.condition == "二手" ? "":<div className="more-link bd-top">
-                        <a href="#/list/sell/esf" className="full">查看更多</a>
+                        <a className="full" onClick={this.props.event?this.props.event:null}>查看更多</a>
                     </div> 
                 }
                 {/* <div className="more-link bd-top">

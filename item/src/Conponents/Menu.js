@@ -1,13 +1,16 @@
 import React from 'react';
-function Menu({data}){
+import {withRouter } from 'react-router-dom';
+function Menu(props){
+    console.log(props,'menu')
     return (
         <ul className="Home-menu1">
         {
-            data.map(item => (
-                <li><img src={item.img} />{item.title}</li>
+            props.data.map(item => (
+                // <li onClick={()=>item.event?this.props.history.push('/cart'):''}><img src={item.img} />{item.title}</li>
+                <li onClick={item.event?props.go:null}><img src={item.img} />{item.title}</li>
             ))
         }
     </ul>
     )
 }
-export default Menu;
+export default withRouter(Menu);

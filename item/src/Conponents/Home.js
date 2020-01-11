@@ -5,6 +5,12 @@ import '../css/Home.css'
 import Interval from './Interval'
 import Menu from './Menu';
 import Shop2 from './Shop2';
+import { withRouter } from 'react-router-dom';
+import { Icon } from 'antd';
+import IconSite from '../prot'//Icon项目网址
+const MyIcon = Icon.createFromIconfontCN({
+    scriptUrl: IconSite, // 在 iconfont.cn 上生成
+  });
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -277,6 +283,10 @@ class Home extends Component {
 
         })
     }
+    //跳转
+    goto=(path)=>{
+        this.props.history.push(path)
+    }
     //渲染
     render() {
         return (
@@ -308,7 +318,7 @@ class Home extends Component {
                     <Interval />
                 </div>
                 <div className="Home-msg">
-                    <div className="Home-msg1">
+                    <div className="Home-msg1" style={{background: "url('./img/home/menu500000053.png') 0.24rem 0.26rem/auto 0.4rem no-repeat"}}>
                         <div className="Home-msg1-1">
                             <div className="swiper-wrapper">
                                 {
@@ -361,7 +371,7 @@ class Home extends Component {
                                             <li className="item" key={item2.title}>
                                                 <div className="inner">
 
-                                                    <a href="#/new/detail/xf/67" className="">
+                                                    <a className="">
                                                         <div className="thumb">
                                                             <img src="https://pics-house.0356f.com/2019/0218/15504547592302504919.jpg?imageView2/1/w/200/h/150/interlace/1/q/100" />
                                                             <span className="status bg-pinkish">在售</span>
@@ -395,7 +405,9 @@ class Home extends Component {
                                                         </div>
 
                                                     </a>
-                                                    <a href="tel:4008500356,8789" className="call iconfont icon-tel"></a>
+                                                    <a href="tel:4008500356,8789" className="call iconfont icon-tel">
+
+                                                    </a>
 
                                                 </div>
                                             </li>
@@ -406,16 +418,17 @@ class Home extends Component {
                         ))
                     }
                     <div className="more-link bd-top">
-                        <a href="#/new/list/xf" className="full">查看更多</a>
+                        <a className="full" onClick={this.goto.bind(this,'/new')}>查看更多</a>
                     </div>
                     <Interval />
                 </div>
                 {/* shop2 */}
-                <Shop2 shop2={this.state.shop2} />
+                <Shop2 shop2={this.state.shop2} event={this.goto.bind(this,'/new')}/>
                 {/* bottom */}
                 <div className="tel-link">
                     <a href="tel:0356-8885356">
-                        <i className="iconfont icon-tubiao49"></i>
+                        {/* <i className="iconfont icon-tubiao49"></i> */}
+                        <MyIcon type="icon-dianhua" />
                         问房热线：0356-8885356
                         </a>
                 </div>
@@ -423,4 +436,4 @@ class Home extends Component {
         )
     }
 }
-export default Home;
+export default withRouter(Home);

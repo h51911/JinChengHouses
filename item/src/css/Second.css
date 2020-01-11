@@ -135,6 +135,9 @@
 .dcontact a .icon-tubiao49 {
     color: #d61939;
     font-size: 0.6rem;
+    box-sizing: border-box;
+    padding-top: .2rem;
+    /* background-color: red; */
 }
 
 

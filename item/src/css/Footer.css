@@ -75,7 +75,24 @@
 .Second{
     padding-bottom: 1rem;
 }
-
+.footer-nav .big{
+     font-size:.85rem;
+    width: .85rem;
+    height: .85rem;
+    position: relative;
+    top: -0.25rem;
+    /* background-color: red; */
+    color: red;
+    /* margin-bottom: -4.44rem; */
+}
+.footer-nav .big +p{
+    /* font-size:.85rem;
+   width: .85rem;
+   height: .85rem;
+   position: relative;
+   top: -0.4r */
+   margin-top: -0.34rem;
+}
 
 
 

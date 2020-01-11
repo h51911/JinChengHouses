@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../css/Personal.css'
 import Menu from './Menu';
-import {withRouter } from 'react-router-dom';
-import { message, Button } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { message } from 'antd';
 class Personal extends Component {
     constructor(props) {
         super(props)
@@ -23,7 +23,8 @@ class Personal extends Component {
             }, {
                 "path": "my/fav/2",
                 "img": "./img/Personal/menu200000005.png",
-                "title": "我的收藏"
+                "title": "我的收藏",
+                "event": 'click'
             }, {
                 "path": "my/manage/buy",
                 "img": "./img/Personal/menu200000006.png",
@@ -46,28 +47,33 @@ class Personal extends Component {
                 "title": "帮助中心"
             }]
         }
+        this.goto = this.goto.bind(this);
     }
-    //  error = () => {
-    //     message.error('This is an error message');
-    //   };
-     error() {
+    //跳转
+    goto(path) {
+        if (path == '/personal2') {
+            this.props.history.push(path);
+        } else {
+
+            this.props.history.push('/cart');
+        }
+    }
+    error() {
         message.error('请先登录，登录即可进入页面！');
-      };
+    };
     //生命周期
-    componentDidMount(){
-    
-    if(!window.localStorage.getItem("user")){
-        
-        this.error();
-        this.props.history.push('/userLogin')
-    }
+    componentDidMount() {
+        if (!window.localStorage.getItem("user")) {
+            this.error();
+            this.props.history.push('/userLogin')
+        }
     }
     render() {
         return (
             <div className="Personal">
                 <div ui-view="header" data-tap-disabled="true" class="PersonalTitle" >
                     <header class="title-bar title-bar-hasbg">
-                        <a class="iconfont back">‹</a>
+                        <a class="iconfont back" onClick={() => this.props.history.goBack()}>‹</a>
                         <h1 class="ng-binding">个人中心</h1>
                         {/* <div class="operate">
                             <a ui-sref="my" class="iconfont">&#xe630;</a>
@@ -89,12 +95,12 @@ class Personal extends Component {
                 {/* body */}
                 <div class="my-index"><div class="user-banner" ui-sref="my.info" href="#/my/info">
                     <div class="pic">
-                        <img ng-src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" alt="" src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" />
+                        <img src="http://uc.0356f.com/avatar.php?uid=1360&amp;size=big" onClick={this.goto.bind(this, '/personal2')} />
                     </div>
                     <div class="name ng-binding">欢迎你，<span>{window.localStorage.getItem("user")}</span></div>
                 </div>
                     <div class="menus">
-                        <Menu data={this.state.shop2}/>
+                        <Menu data={this.state.shop2} onClick={this.goto.bind(this, "/cart")} go={this.goto} />
                         {/* <ul class="m1 menu">
 
 

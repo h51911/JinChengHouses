@@ -5,9 +5,15 @@ import App from './App';
 // import '../public/rem'
 // import 'lib-flexible'
 import * as serviceWorker from './serviceWorker';
-import {HashRouter,Route} from 'react-router-dom';
-
-ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('root'));
+import { HashRouter, Route } from 'react-router-dom';
+import store from './store'
+import {Provider} from 'react-redux';
+ReactDOM.render(
+    <Provider store={store}>
+        <HashRouter><App /></HashRouter>
+    </Provider>
+    ,
+    document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
